@@ -92,8 +92,9 @@
 #ibl-test .offer-i:last-child{ margin-bottom:0; }
 #ibl-test .offer-i::before{ content:'✓'; color:var(--cyan); position:absolute; left:0; top:0; font-weight:700; }
 #ibl-test .offer-i b{ color:#fff; font-weight:700; }
-#ibl-test .urgency{ font-size:13px; color:#ffd27a; line-height:1.6; text-align:center; margin-bottom:14px; }
+#ibl-test .urgency{ font-size:15px; color:#ffd27a; line-height:1.6; text-align:center; margin-bottom:14px; }
 #ibl-test .urgency::before{ content:'⏳ '; }
+#ibl-test .footer-cta .btn-text{ font-size:15px; }
 
 /* PC에서만 폰트·폭 키우기 (모바일은 위 기본값 유지) */
 @media (min-width:768px){
@@ -113,5 +114,6 @@
   #ibl-test .block.inbody p, #ibl-test .fix li{ font-size:16px; }
   #ibl-test .gap{ font-size:16px; }
   #ibl-test .offer-i{ font-size:15px; }
-  #ibl-test .urgency{ font-size:14px; }
+  #ibl-test .urgency{ font-size:17px; }
+  #ibl-test .footer-cta .btn-text{ font-size:16px; }
 }
