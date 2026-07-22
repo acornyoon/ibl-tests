@@ -151,7 +151,109 @@ var IBL_TESTS = {
         urgency:"회복이 없으면 대사도 깨어나지 않습니다. 잠부터가 먼저예요." }
     }
   },
-  fatgain:{ status:"soon", icon:"🍔", title:"나는 왜 살이 안 빠질까", menuDesc:"살 안 빠지는 진짜 이유, 내 유형은? (준비중)" },
+  fatgain:{
+    status:"active",
+    icon:"🍔",
+    menuDesc:"덜 먹어도 안 빠지는 진짜 이유, 내 유형은?",
+    title:"나는 왜 살이 안 빠질까",
+    lead:"덜 먹어도, 운동해도 안 빠진다면 이유가 따로 있습니다.<br>당신이 살찌는 진짜 '<b>패턴</b>'을 찾아보세요.",
+    meta:"16문항 · 약 50초 · 8가지 살찌는 유형 중 내 유형은?",
+    quizName:"살찌는 유형 테스트",
+    othersLabel:"살찌는 유형 8종",
+    pre:"당신의 살찌는 유형은",
+    questions:[
+      {t:"예전과 똑같이 먹는데 살이 잘 안 빠진다", pat:"musclequit"},
+      {t:"예전보다 근육이 빠지고 몸이 물러진 느낌이다", pat:"musclequit"},
+      {t:"하루 대부분을 앉아서 보낸다", pat:"chairbody"},
+      {t:"따로 운동하는 시간이 거의 없다", pat:"chairbody"},
+      {t:"'예전엔 이렇게 안 쪘는데'라는 말을 자주 한다", pat:"wasfit"},
+      {t:"나이가 들면서 살 붙는 속도가 빨라졌다", pat:"wasfit"},
+      {t:"밥·빵·면 같은 탄수화물을 특히 좋아한다", pat:"carbmagnet"},
+      {t:"식사 후에도 금방 단 게 당긴다", pat:"carbmagnet"},
+      {t:"스트레스를 받으면 먹는 걸로 푼다", pat:"stresseat"},
+      {t:"배가 안 고파도 기분 때문에 먹을 때가 많다", pat:"stresseat"},
+      {t:"바쁘면 끼니를 자주 거른다", pat:"starvebinge"},
+      {t:"굶다가 한 번에 몰아서 많이 먹는다", pat:"starvebinge"},
+      {t:"하루 먹는 양이 저녁·야식에 몰려 있다", pat:"nighteat"},
+      {t:"자기 전에 뭔가 먹어야 마음이 편하다", pat:"nighteat"},
+      {t:"평소 잠이 부족한 편이다", pat:"sleepdebt"},
+      {t:"잠을 못 잔 다음 날은 유독 많이 먹는다", pat:"sleepdebt"}
+    ],
+    resolve:function(answers){
+      var qs=this.questions, sc={};
+      for(var i=0;i<qs.length;i++){ if(answers[i]){ sc[qs[i].pat]=(sc[qs[i].pat]||0)+1; } }
+      var best=this.order[0], bestn=-1;
+      for(var j=0;j<this.order.length;j++){ var k=this.order[j]; var n=sc[k]||0; if(n>bestn){ bestn=n; best=k; } }
+      return best;
+    },
+    order:["musclequit","chairbody","wasfit","carbmagnet","stresseat","starvebinge","nighteat","sleepdebt"],
+    types:{
+      musclequit:{ emoji:"🏋️", name:"근육 퇴사형", sub:"대사 엔진이 파업 중", pct:"전체의 약 13%",
+        tags:["저대사","근손실","나이"],
+        desc:"먹는 양은 그대론데 살이 안 빠진다면, 범인은 식탐이 아니라 '퇴사한 근육'입니다. 근육이 줄면 가만히 있어도 태우는 에너지가 줄어, 같은 식사에도 살이 쌓입니다.",
+        inbody:"대사 엔진인 근육이 줄어 기초 소비가 떨어진 상태. 덜 먹어도 남는 에너지가 지방으로 갑니다.",
+        fix:["<b>근력운동 주 2회</b> — 퇴사한 근육을 재고용하세요","<b>끼니마다 단백질</b> — 근육 만들 재료 확보","<b>극단적 굶기 금지</b> — 굶으면 근육부터 빠져 악순환"],
+        gap:"같은 근육 퇴사형이라도 갈립니다. 차이는 줄어드는 근육을 붙잡았는가 — 그 근육 합성의 스위치가 <b class='pt'>류신</b>입니다.",
+        urgency:"근육은 30대 후반부터 매년 줄어듭니다. 늦출수록 되돌리기 어렵습니다.",
+        rec:"leucine" },
+      chairbody:{ emoji:"🪑", name:"의자와 한몸형", sub:"엉덩이가 의자에 붙은", pct:"전체의 약 14%",
+        tags:["좌식","활동부족","근육정체"],
+        desc:"앉아 있는 시간이 길수록 근육은 조용히 굳고 대사는 가라앉습니다. 운동을 해도 정체라면, 나머지 23시간의 '앉아있음'이 원인일 수 있습니다.",
+        inbody:"활동이 적어 근육 자극이 부족하고, 남는 에너지는 저장 모드로. 연소 스위치가 잘 안 켜집니다.",
+        fix:["<b>1시간에 한 번 일어나기</b> — 앉은 시간을 쪼개세요","<b>일상 속 움직임 늘리기</b> — 계단·걷기부터","<b>근력 자극 추가</b> — 근육에 '쓰인다'는 신호를"],
+        gap:"차이는 굳어가는 근육에 다시 시동을 걸었는가입니다. 그 재료의 핵심이 <b class='pt'>류신</b>이에요.",
+        urgency:"안 쓰는 근육은 지금도 줄고 있습니다.",
+        rec:"leucine" },
+      wasfit:{ emoji:"📉", name:"왕년엔 날씬형", sub:"20대 방식이 안 통하는", pct:"전체의 약 12%",
+        tags:["나이","대사저하","예전방식"],
+        desc:"'예전엔 이렇게 안 쪘는데'가 입버릇이라면, 몸이 변한 게 아니라 대사가 변한 겁니다. 20대의 방식은 40대의 몸에 더는 통하지 않습니다.",
+        inbody:"나이가 들며 근육과 기초대사가 함께 내려간 상태. 예전과 같은 식사가 이제는 '초과'가 됩니다.",
+        fix:["<b>예전 방식 버리기</b> — 굶기 다이어트는 근육만 깎습니다","<b>근육 지키기 우선</b> — 대사의 바닥을 올리는 게 먼저","<b>단백질 챙기기</b> — 나이 들수록 더 필요"],
+        gap:"차이는 떨어진 대사를 방치했는가입니다. 근육 합성을 켜는 <b class='pt'>류신</b>이 그 바닥을 받쳐줍니다.",
+        urgency:"지금이 가장 빠릅니다. 대사는 미룰수록 더 내려갑니다.",
+        rec:"leucine" },
+      carbmagnet:{ emoji:"🧲", name:"탄수 자석형", sub:"밥·빵·면이 손에 붙는", pct:"전체의 약 14%",
+        tags:["탄수당김","혈당출렁","식후허기"],
+        desc:"밥·빵·면이 자석처럼 손에 붙는다면, 혈당이 올랐다 꺼지는 롤러코스터에 올라탄 상태입니다. 먹고 나면 금방 또 당기는 건 의지가 아니라 혈당의 문제입니다.",
+        inbody:"혈당이 급하게 오르내리며 식후에도 허기가 빨리 찾아옵니다. 그 낙차가 단 것 갈망을 만듭니다.",
+        fix:["<b>단백질·채소 먼저</b> — 탄수는 나중에 먹어 완충","<b>정제탄수 줄이기</b> — 흰빵·과자부터","<b>끼니 거르지 않기</b> — 빈속 폭주 방지"],
+        gap:"차이는 출렁임 위에서 버틸 '바탕'이 있는가입니다. <b class='pt'>활부민</b>은 간이 회복 단백질(알부민)을 만드는 환경을 받쳐줍니다.",
+        urgency:"출렁임이 반복될수록 갈망도 습관이 됩니다.",
+        rec:"albumin" },
+      stresseat:{ emoji:"😮‍💨", name:"현타 폭식형", sub:"현타 오면 일단 입에", pct:"전체의 약 13%",
+        tags:["감정식사","스트레스","회복부족"],
+        desc:"배가 고프지 않은데도 현타가 오면 일단 입에 넣는 타입. 문제는 음식이 아니라, 지치고 회복이 안 된 몸이 자꾸 보상을 찾는다는 데 있습니다.",
+        inbody:"피로와 스트레스가 쌓이면 몸은 빠른 보상(단 것·기름진 것)을 원합니다. 회복이 안 되면 이 패턴이 굳습니다.",
+        fix:["<b>트리거 기록</b> — 언제 먹게 되는지 패턴 찾기","<b>대체 행동</b> — 산책·물 한 잔으로 텀 두기","<b>회복의 바탕 채우기</b> — 지친 몸부터 돌보기"],
+        gap:"차이는 지친 몸을 받쳐줄 바탕이 있는가입니다. <b class='pt'>활부민</b>은 회복의 토대가 되는 알부민 합성 환경을 돕습니다.",
+        urgency:"지칠수록 폭식은 잦아집니다. 바탕부터 바꾸세요.",
+        rec:"albumin" },
+      starvebinge:{ emoji:"⏰", name:"굶다 몰아먹기형", sub:"굶다가 저녁에 폭발", pct:"전체의 약 11%",
+        tags:["결식","폭식","혈당급등"],
+        desc:"바쁘다고 굶다가 저녁에 몰아서 폭발하는 타입. 하루 총량은 적어 보여도, 한 번에 쏟아부으면 몸은 그걸 지방으로 저장하기 딱 좋은 상태가 됩니다.",
+        inbody:"오래 굶은 뒤의 폭식은 혈당을 급격히 올리고, 남는 에너지를 저장으로 돌립니다.",
+        fix:["<b>끼니 규칙화</b> — 조금씩이라도 거르지 않기","<b>단백질 먼저</b> — 폭식 충동 줄이기","<b>'굶기=다이어트' 착각 버리기</b>"],
+        gap:"차이는 출렁임을 버틸 바탕이 있는가입니다. <b class='pt'>활부민</b>이 회복의 토대를 받쳐줍니다.",
+        urgency:"굶고 폭식하는 리듬은 오래갈수록 살로 갑니다.",
+        rec:"albumin" },
+      nighteat:{ emoji:"🌙", name:"달밤의 먹방형", sub:"밤이 되면 각성하는", pct:"전체의 약 12%",
+        tags:["야식","밤몰림","리듬"],
+        desc:"낮엔 잘 참다가 밤이 되면 각성하는 타입. 같은 음식도 밤에 먹으면 몸이 저장 쪽으로 기울기 쉬워, 늦은 시간의 한 끼가 유독 크게 남습니다.",
+        inbody:"밤에는 몸이 쉴 준비를 하는 시간. 이때 들어온 에너지는 낮보다 저장으로 가기 쉽습니다.",
+        fix:["<b>먹는 시간 앞당기기</b> — 저녁을 조금 일찍","<b>밤의 빛 줄이기</b> — 야식 신호를 끄는 첫 단추","<b>수면 리듬 잡기</b> — 밤 각성부터 다스리기"],
+        gap:"차이는 밤의 리듬을 되돌렸는가입니다. <b class='pt'>멜라토닌</b>은 어긋난 밤 신호를 제자리로 돌립니다.",
+        urgency:"밤 각성이 반복되면 야식은 습관이 됩니다.",
+        rec:"melatonin" },
+      sleepdebt:{ emoji:"🍗", name:"잠 대신 치킨형", sub:"못 잔 다음 날 폭주", pct:"전체의 약 11%",
+        tags:["수면부족","식욕폭발","다음날보상"],
+        desc:"못 잔 다음 날 유독 많이 먹는 타입. 수면이 부족하면 식욕과 섭취량이 늘어나는 경향이 보고됩니다 — 부족한 잠을 몸이 음식으로 메우려는 셈입니다.",
+        inbody:"수면이 부족하면 다음 날 허기와 고칼로리 음식에 대한 욕구가 커지는 경향이 있습니다.",
+        fix:["<b>수면 시간 확보</b> — 다이어트보다 잠이 먼저","<b>취침 리듬 고정</b> — 잠의 질부터","<b>밤의 빛·카페인 관리</b>"],
+        gap:"차이는 부족한 잠을 되찾았는가입니다. <b class='pt'>멜라토닌</b>이 어긋난 수면 리듬을 다듬어줍니다.",
+        urgency:"수면빚이 쌓일수록 식욕은 더 폭발합니다.",
+        rec:"melatonin" }
+    }
+  },
   fatigue:{ status:"soon", icon:"😴", title:"내 피로 유형 테스트", menuDesc:"늘 피곤한 이유, 내 번아웃 유형은? (준비중)" },
   supplement:{ status:"soon", icon:"💊", title:"나에게 필요한 영양제 테스트", menuDesc:"내 몸에 진짜 필요한 영양제는? (준비중)" },
   selfcare:{ status:"soon", icon:"🏆", title:"내 자기관리 레벨 테스트", menuDesc:"내 자기관리, 상위 몇 %일까? (준비중)" }
@@ -195,7 +297,8 @@ window.iblAnswer=function(isO){ answers.push(!!isO); idx++;
   if(idx>=cur.questions.length){ paint(cur.resolve(answers)); show('ibl-result'); } else renderQ();
 };
 function paint(key){ curKey=key; var t=cur.types[key];
-  el('ibl-r-hero').innerHTML='<img src="'+cur.img(key)+'" alt="'+t.name+'">';
+  var hv=cur.img&&cur.img(key);
+  el('ibl-r-hero').innerHTML=hv?('<img src="'+hv+'" alt="'+t.name+'">'):(t.emoji||'');
   el('ibl-r-pre').textContent=cur.pre;
   el('ibl-r-name').textContent=t.name;
   el('ibl-r-sub').textContent=t.sub;
@@ -212,7 +315,9 @@ function paint(key){ curKey=key; var t=cur.types[key];
   el('ibl-r-prodbtn').textContent=(prod?prod.name:'제품')+' 보러가기';
   el('ibl-others-label').textContent=cur.othersLabel;
   el('ibl-others').innerHTML=cur.order.map(function(k){
-    return '<div class="o-item'+(k===key?' cur':'')+'"><div class="o-ic"><img src="'+cur.img(k)+'" alt="'+cur.types[k].name+'"></div><div class="o-nm">'+cur.types[k].name+'</div></div>';
+    var ov=cur.img&&cur.img(k);
+    var inner=ov?('<img src="'+ov+'" alt="'+cur.types[k].name+'">'):(cur.types[k].emoji||'');
+    return '<div class="o-item'+(k===key?' cur':'')+'"><div class="o-ic">'+inner+'</div><div class="o-nm">'+cur.types[k].name+'</div></div>';
   }).join('');
 }
 window.iblRestart=function(){ iblStartTest(); };
