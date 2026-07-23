@@ -161,6 +161,8 @@ var IBL_TESTS = {
     quizName:"살찌는 유형 테스트",
     othersLabel:"살찌는 유형 8종",
     pre:"당신의 살찌는 유형은",
+    heroImg:"https://gi.esmplus.com/acorn2021/%EC%9D%B8%EB%B0%94%EB%9E%A9%20%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80%20%EC%9E%90%EB%A3%8C/%EC%82%B4%EC%B0%8C%EB%8A%94%20%EC%9C%A0%ED%98%95/carbmagnet.jpeg",
+    img:function(key){ return "https://gi.esmplus.com/acorn2021/%EC%9D%B8%EB%B0%94%EB%9E%A9%20%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80%20%EC%9E%90%EB%A3%8C/%EC%82%B4%EC%B0%8C%EB%8A%94%20%EC%9C%A0%ED%98%95/"+key+".jpeg"; },
     questions:[
       {t:"예전과 똑같이 먹는데 살이 잘 안 빠진다", pat:"musclequit"},
       {t:"예전보다 근육이 빠지고 몸이 물러진 느낌이다", pat:"musclequit"},
