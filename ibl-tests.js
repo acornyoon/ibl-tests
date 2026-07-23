@@ -6,7 +6,7 @@
 (function(){
 
 /* ===== ① 설정 ===== */
-var IBL_SITE_URL    = "https://www.insidebodylab.kr/bodydesign";   /* 이 테스트가 올라간 페이지 주소 */
+var IBL_SITE_URL    = "https://www.insidebodylab.kr/selfcheck";    /* 이 테스트가 올라간 페이지 주소 (공유 링크 = 이 주소) */
 var IBL_KAKAO_KEY   = "10b36dd895bcbb506adf63ebd909c845";          /* 카카오 JavaScript 키 */
 var IBL_CONTENT_URL = "https://www.insidebodylab.kr/lab";          /* '더 알아보기' → 성분 연구소 */
 var IBL_OG_IMAGE    = "https://www.insidebodylab.kr/og.png";       /* 카톡 공유 카드 썸네일 */
@@ -333,7 +333,7 @@ window.iblCopyLink=function(){ doCopy(curUrl()); };
 window.iblShareKakao=function(){ var url=curUrl();
   if(window.Kakao && Kakao.isInitialized && Kakao.isInitialized()){
     try{ Kakao.Share.sendDefault({ objectType:'feed',
-      content:{ title:'나는 '+curName()+'!', description:(cur?cur.title:'')+' · 너는 무슨 유형일까?', imageUrl:IBL_OG_IMAGE, link:{mobileWebUrl:url, webUrl:url} },
+      content:{ title:'나는 '+curName()+'!', description:(cur?cur.title:'')+' · 너는 무슨 유형일까?', imageUrl:((cur&&cur.img&&cur.img(curKey))||IBL_OG_IMAGE), link:{mobileWebUrl:url, webUrl:url} },
       buttons:[{title:'나도 테스트하기', link:{mobileWebUrl:url, webUrl:url}}] }); return; }catch(e){}
   }
   doCopy(url); toast('카톡 공유가 안 되는 환경이라 링크를 복사했어요');
